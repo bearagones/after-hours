@@ -1,0 +1,50 @@
+body {
+    font-family: "Montserrat", sans-serif;
+    color: #EBE1ED;
+}
+
+.navbar .navbar-brand{
+    color: #EBE1ED !important; 
+}
+
+.nav-link {
+    color: #EBE1ED !important;
+    transition: all .25s ease-in-out !important;
+}
+
+.nav-link:hover {
+    color: #A54A5A !important;
+    text-shadow: #DE772A !important;
+    font-size: 115%;
+    font-weight: bolder;
+}
+
+.feature-screen {
+    background-image: url('/assets/ggb_night.png');
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.feature-screen h1 {
+    font-family: "Playwrite BE VLG", cursive;
+    font-size: 80px;
+    color: #EBE1ED;
+    text-shadow: 2px 2px 5px #34356F;
+    animation: fadeIn 5s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
