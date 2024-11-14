@@ -60,35 +60,50 @@ function displayCards(data) {
         // Create a wrapper for each card
         const cardWrapper = document.createElement("div");
         cardWrapper.className = "col-12 col-md-4 d-flex justify-content-center"; // Center each card in the column
-    
+
         // Get the stars HTML from the `stars` field
         const stars = displayStars(record.fields.Stars); // Assuming `stars` is the field with the number of stars
         const rating = record.fields.Rating; // Rating to be displayed next to the stars
-    
+
         cardWrapper.innerHTML = `
-        <div class="card" style="width: 350px; margin: 10px;">
-          <img src="${record.fields.Thumbnail[0].url}" class="card-img-top" alt="${record.fields.Name}">
-          <div class="card-body d-flex flex-column align-items-center text-center">
-            <h5 class="card-title">${record.fields.Name}</h5>
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="stars">${stars}</div>
-              <span class="ms-2">${rating}</span>
+            <div class="card" style="width: 350px; margin: 10px;">
+                <div class="card-inner">
+                <!-- Front of the card -->
+                <div class="card-front">
+                    <img src="${record.fields.Thumbnail[0].url}" class="card-img-top" alt="${record.fields.Name}">
+                    <div class="card-body d-flex flex-column align-items-center text-center">
+                        <h5 class="card-title">${record.fields.Name}</h5>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <div class="stars">${stars}</div>
+                                <span class="ms-2">${rating}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back of the card -->
+                <div class="card-back">
+                    <img src="${record.fields.Thumbnail[0].url}" class="card-img-top" alt="${record.fields.Name}">
+                    <div class="card-body d-flex flex-column align-items-center text-center">
+                        <p><strong>Address:</strong> ${record.fields.Address}</p>
+                        <p><strong>Closing Time:</strong> ${record.fields['Closing Time']}</p>
+                        <a href="${record.fields['Yelp Page']}" class="btn btn-primary">Yelp Page</a>
+                    </div>
+                </div>
+                </div>
             </div>
-            <a href="${record.fields['Yelp Page']}" class="btn btn-primary">Yelp Page</a>
-          </div>
-        </div>
-      `;
-    
+        `;
+
+
         // If we're starting a new row (first card or after 3 cards), create a new row element
         if (index % 3 === 0) {
             // Only create a new row if it's the first card or after 3 cards
             row = document.createElement("div");
             row.className = "row g-3 justify-content-center"; // Create a new row and center the cards
         }
-    
+
         // Append the card to the current row
         row.appendChild(cardWrapper);
-    
+
         // If 3 cards are added, push the row to the container and create a new row
         if ((index + 1) % 3 === 0 || index === data.length - 1) {
             container.appendChild(row); // Add the current row to the container
@@ -100,25 +115,25 @@ function displayStars(stars) {
     const fullStars = Math.floor(stars); // Whole stars
     const halfStar = stars % 1 >= 0.5 ? 1 : 0; // Check if it's a half-star
     const emptyStars = 5 - fullStars - halfStar;
-  
+
     let starIcons = '';
-  
+
     // Add the full stars
     for (let i = 0; i < fullStars; i++) {
-      starIcons += `<i class="fa-solid fa-star" style="color: #FFD43B;"></i>`;
-    }
-  
-    // Add the half star if applicable
-    if (halfStar === 1) {
-      starIcons += `<i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i>`;
+        starIcons += `<i class="fa-solid fa-star" style="color: #FFD43B;"></i>`;
     }
 
-      // Add empty stars
+    // Add the half star if applicable
+    if (halfStar === 1) {
+        starIcons += `<i class="fa-solid fa-star-half-stroke" style="color: #FFD43B;"></i>`;
+    }
+
+    // Add empty stars
     for (let i = 0; i < emptyStars; i++) {
         starIcons += `<i class="fa-regular fa-star" style="color: #FFD43B;"></i>`;
     }
 
     // Return the generated stars
     return starIcons;
-  }
+}
 
