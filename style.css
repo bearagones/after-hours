@@ -1,29 +1,29 @@
 body {
     font-family: "Montserrat", sans-serif;
     color: #ebe1ed !important;
-  }
-  
-  .navbar .navbar-brand {
+}
+
+.navbar .navbar-brand {
     color: #ebe1ed !important;
-  }
-  
-  .nav-link {
+}
+
+.nav-link {
     color: #ebe1ed !important;
     transition: all 0.25s ease-in-out !important;
-  }
-  
-  .nav-link:hover {
+}
+
+.nav-link:hover {
     color: #a54a5a !important;
     text-shadow: #de772a !important;
     font-size: 115%;
     font-weight: bolder;
-  }
-  
-  .navbar-toggler-icon {
+}
+
+.navbar-toggler-icon {
     color: #ebe1ed;
-  }
-  
-  #feature-screen {
+}
+
+#feature-screen {
     background-image: url("https://cdn.glitch.global/59952564-19e0-4333-bf64-e603db058523/ggb_night.png?v=1729533677251");
     background-size: cover;
     background-position: top;
@@ -34,77 +34,108 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-  }
-  
-  #feature-screen h1 {
+}
+
+#feature-screen h1,
+#background-image h1 {
     font-family: "Playwrite BE VLG", cursive;
     font-size: 80px;
     color: #ebe1ed;
     text-shadow: 2px 2px 5px #34356f;
     animation: fadeIn 5s;
-  }
-  
-  @keyframes fadeIn {
+}
+
+#background-image {
+    background-image: url("https://cdn.glitch.global/59952564-19e0-4333-bf64-e603db058523/starry_sky.jpg?v=1731489220285");
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+@keyframes fadeIn {
     0% {
-      opacity: 0;
+        opacity: 0;
     }
+
     100% {
-      opacity: 1;
+        opacity: 1;
     }
-  }
-  
-  #about-screen {
+}
+
+#about-screen {
     width: 100vw;
     height: 100vh;
     background: linear-gradient(0.25turn, #34356f, #1f0c33, #27223a);
-  }
-  
-  #about-screen h1 {
+}
+
+#about-screen h1 {
     font-family: "Playwrite BE VLG", cursive;
     font-size: 50px;
     color: #ebe1ed;
-  }
-  
-  #about-screen .btn {
+}
+
+#about-screen .btn,
+#cards-container .btn {
     background: #a54a5a;
     border: none;
-  }
-  
-  #about-screen .btn:hover {
+}
+
+#about-screen .btn:hover,
+#cards-container .btn:hover {
     background: #871838;
-  }
-  
-  #about-screen .card:hover {
+}
+
+#about-screen .card:hover {
     transition: all 0.3s ease-in-out;
     transform: scale(1.1);
-  }
-  
-  .about,
-  .find {
+}
+
+.about,
+.find {
     padding: 2rem;
-  }
-  
-  .about p {
+}
+
+.about p {
     font-size: 30px;
-  }
-  
-  .home-img img {
+}
+
+.home-img img {
     border: 10px solid #ebe1ed;
     border-radius: 10rem;
-  }
-  
-  .card-img-top {
+}
+
+.card-img-top {
     width: 100%;
     height: 200px;
     object-fit: cover;
-  }
-  
-  .card-body {
+}
+
+#cards-container {
+    background: linear-gradient(0.25turn, #34356f, #1f0c33, #27223a);
+}
+
+#cards-container .card-img-top {
+    width: 348px;
+    height: 348px;
+    object-fit: cover;
+}
+
+.card-body {
     background: #ebe1ed;
     color: #27223a;
-  }
-  
-  .btn-outline-success {
+}
+
+i.fa-star, i.fa-star-half-stroke, i.fa-regular.fa-star {
+    color: #d07c3d !important;
+}
+
+.btn-outline-success {
     --bs-btn-color: #d07c3d !important;
     --bs-btn-border-color: #d07c3d !important;
     --bs-btn-hover-color: #ebe1ed !important;
@@ -119,5 +150,4 @@ body {
     --bs-btn-disabled-bg: transparent;
     --bs-btn-disabled-border-color: #d07c3d !important;
     --bs-gradient: none;
-  }
-  
+}
