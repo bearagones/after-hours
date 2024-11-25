@@ -143,6 +143,10 @@ body {
     object-fit: cover;
 }
 
+.card-front p {
+    font-style: italic;
+}
+
 /* card body background and text */
 .card-body {
     background: #ebe1ed;
@@ -153,7 +157,7 @@ body {
 #cards-container .card {
     background-color: transparent;
     width: 350px;
-    height: 500px;
+    height: 550px;
     margin: 10px;
     position: relative;
     perspective: 1000px;
@@ -229,4 +233,9 @@ body {
 /* star rating styling */
 i.fa-star, i.fa-star-half-stroke, i.fa-regular.fa-star {
     color: #d07c3d !important;
+}
+
+/* button group for the back of the card */
+.button-group a {
+    margin: 0 5px;
 }

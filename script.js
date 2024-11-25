@@ -96,6 +96,7 @@ function displayCards(data) {
                         <img src="${record.fields.Thumbnail[0].url}" class="card-img-top" alt="${record.fields.Name}">
                         <div class="card-body d-flex flex-column align-items-center text-center">
                             <h5 class="card-title">${record.fields.Name}</h5>
+                            <p>${record.fields.Description}</p>
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="stars">${stars}</div>
                                 <span class="ms-2">${rating}</span>
@@ -107,7 +108,18 @@ function displayCards(data) {
                             <img src="${record.fields.Thumbnail[0].url}" class="card-img-top" alt="${record.fields.Name}">
                             <div class="text-overlay">${record.closingTimes}</div>
                         </div>
-                        <a href="${record.fields['Yelp Page']}" class="btn btn-primary" target="_blank">Yelp Page</a>
+                        <div class="card-body d-flex flex-column align-items-center text-center">
+                            <h5 class="card-title">${record.fields.Name}</h5>
+                            <div class="badges">
+                                <span class="badge bg-primary">${record.fields.District}</span>
+                                <span class="badge bg-secondary">${record.fields.Neighborhood}</span>
+                            </div>
+                            <p>${record.fields.Address}</p>
+                            <div class="button-group d-flex justify-content-center">
+                                <a href="${record.fields['Yelp Page']}" class="btn btn-primary" target="_blank">Yelp Page</a>
+                                <a href="${record.fields.Directions}" class="btn btn-primary" target="_blank">Directions</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
