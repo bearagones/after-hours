@@ -233,6 +233,12 @@ body {
     z-index: 2;
 }
 
+/* highlighted current day */
+.closing-times .highlighted {
+    font-weight: bold;
+    text-shadow: 1px 1px 3px #d07c3d;
+}
+
 /* star rating styling */
 i.fa-star, i.fa-star-half-stroke, i.fa-regular.fa-star {
     color: #d07c3d !important;

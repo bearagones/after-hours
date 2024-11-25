@@ -164,22 +164,33 @@ function getClosingTimes(record) {
     if (!record) return "No closing times available";
 
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    let formattedTimes = [];
 
-    console.log("Closing Time Data:", record);
+    const currentDay = new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',
+        timeZone: 'America/Los_Angeles'
+    }).format(new Date());
+
+    let formattedTimes = [];
 
     daysOfWeek.forEach(day => {
         const time = record[day];
         console.log(`Closing time for ${day}:`, time);
 
+        let timeText = '';
         if (time) {
-            formattedTimes.push(`${day}: ${time}`);
+            timeText = `${day}: ${time}`;
         } else {
-            formattedTimes.push(`${day}: Not Available`);
+            timeText = `${day}: Not Available`;
         }
+
+        if (day === currentDay) {
+            timeText = `<span class="highlighted">${timeText}</span>`;
+        }
+
+        formattedTimes.push(timeText);
     });
 
-    return formattedTimes.join('<br>'); // Return a formatted string
+    return formattedTimes.join('<br>'); 
 }
 
 var mybutton = document.getElementById("scrollToTopBtn");
