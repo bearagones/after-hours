@@ -239,3 +239,13 @@ i.fa-star, i.fa-star-half-stroke, i.fa-regular.fa-star {
 .button-group a {
     margin: 0 5px;
 }
+
+.badge.district {
+    background-color: #34356F;
+    color: #ebe1ed !important;
+}
+
+.badge.neighborhood {
+    background-color: #DE772A;
+    color: #ebe1ed !important;
+}

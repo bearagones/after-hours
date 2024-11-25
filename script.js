@@ -111,8 +111,8 @@ function displayCards(data) {
                         <div class="card-body d-flex flex-column align-items-center text-center">
                             <h5 class="card-title">${record.fields.Name}</h5>
                             <div class="badges">
-                                <span class="badge bg-primary">${record.fields.District}</span>
-                                <span class="badge bg-secondary">${record.fields.Neighborhood}</span>
+                                <span class="badge district">${record.fields.District}</span>
+                                <span class="badge neighborhood">${record.fields.Neighborhood}</span>
                             </div>
                             <p>${record.fields.Address}</p>
                             <div class="button-group d-flex justify-content-center">
