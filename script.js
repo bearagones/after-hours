@@ -88,24 +88,27 @@ function displayCards(data) {
         const stars = displayStars(record.fields.Stars); // Assuming `stars` is the field with the number of stars
         const rating = record.fields.Rating;
 
-        cardWrapper.innerHTML = `
+        cardWrapper.innerHTML = 
+        `
             <div class="card" style="width: 350px; margin: 10px;">
                 <div class="card-inner">
-                <div class="card-front">
-                    <img src="${record.fields.Thumbnail[0].url}" class="card-img-top" alt="${record.fields.Name}">
-                    <div class="card-body d-flex flex-column align-items-center text-center">
-                    <h5 class="card-title">${record.fields.Name}</h5>
-                    <div class="d-flex align-items-center justify-content-center">
-                        <div class="stars">${stars}</div>
-                        <span class="ms-2">${rating}</span>
+                    <div class="card-front">
+                        <img src="${record.fields.Thumbnail[0].url}" class="card-img-top" alt="${record.fields.Name}">
+                        <div class="card-body d-flex flex-column align-items-center text-center">
+                            <h5 class="card-title">${record.fields.Name}</h5>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="stars">${stars}</div>
+                                <span class="ms-2">${rating}</span>
+                            </div>
+                        </div>
                     </div>
-                    <a href="${record.fields['Yelp Page']}" class="btn btn-primary">Yelp Page</a>
+                    <div class="card-back">
+                        <div class="closing-times">
+                            <img src="${record.fields.Thumbnail[0].url}" class="card-img-top" alt="${record.fields.Name}">
+                            <div class="text-overlay">${record.closingTimes}</div>
+                        </div>
+                        <a href="${record.fields['Yelp Page']}" class="btn btn-primary" target="_blank">Yelp Page</a>
                     </div>
-                </div>
-                <div class="card-back">
-                    <div class="closing-times" style="color: #ebe1ed;">${record.closingTimes}</div>
-                    <img src="${record.fields.Thumbnail[0].url}" class="card-img-top" alt="${record.fields.Name}">
-                </div>
                 </div>
             </div>
         `;

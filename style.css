@@ -1,8 +1,11 @@
+/* all pages */
 body {
     font-family: "Montserrat", sans-serif;
     color: #ebe1ed !important;
+    overflow-x: hidden;
 }
 
+/* nav bar */
 .navbar .navbar-brand {
     color: #ebe1ed !important;
 }
@@ -23,6 +26,7 @@ body {
     color: #ebe1ed;
 }
 
+/* feature screen on main page */
 #feature-screen {
     background-image: url("https://cdn.glitch.global/59952564-19e0-4333-bf64-e603db058523/ggb_night.png?v=1729533677251");
     background-size: cover;
@@ -36,6 +40,7 @@ body {
     text-align: center;
 }
 
+/* text on the feature images */
 #feature-screen h1,
 #background-image h1 {
     font-family: "Playwrite BE VLG", cursive;
@@ -45,6 +50,7 @@ body {
     animation: fadeIn 5s;
 }
 
+/* feature images on indiv pages */
 #background-image {
     background-image: url("https://cdn.glitch.global/59952564-19e0-4333-bf64-e603db058523/starry_sky.jpg?v=1731489220285");
     background-size: cover;
@@ -58,6 +64,7 @@ body {
     text-align: center;
 }
 
+/* fade in animation */
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -68,18 +75,21 @@ body {
     }
 }
 
+/* about screen background gradient */
 #about-screen {
     width: 100vw;
     height: 100vh;
     background: linear-gradient(0.25turn, #34356f, #1f0c33, #27223a);
 }
 
+/* about screen header */
 #about-screen h1 {
     font-family: "Playwrite BE VLG", cursive;
     font-size: 50px;
     color: #ebe1ed;
 }
 
+/* buttons for the cards in the about section */
 #about-screen .btn,
 #cards-container .btn {
     background: #a54a5a;
@@ -91,58 +101,65 @@ body {
     background: #871838;
 }
 
+/* cards will grow on hover */
 #about-screen .card:hover {
     transition: all 0.3s ease-in-out;
     transform: scale(1.1);
 }
 
+/* card padding */
 .about,
 .find {
     padding: 2rem;
 }
 
+/* font size for about section */
 .about p {
     font-size: 30px;
 }
 
+/* image on the about screen */
 .home-img img {
     border: 10px solid #ebe1ed;
     border-radius: 10rem;
 }
 
+/* formatting for all card images */
 .card-img-top {
     width: 100%;
     height: 200px;
     object-fit: cover;
 }
 
+/* background gradient for cards-container */
 #cards-container {
     background: linear-gradient(0.25turn, #34356f, #1f0c33, #27223a);
 }
 
+/* formatting for card images in the container */
 #cards-container .card-img-top {
     width: 348px;
     height: 348px;
     object-fit: cover;
 }
 
+/* card body background and text */
 .card-body {
     background: #ebe1ed;
     color: #27223a;
 }
 
+/* entire card styling */
 #cards-container .card {
     background-color: transparent;
     width: 350px;
     height: 500px;
     margin: 10px;
     position: relative;
-    /* This is important for the flip effect */
     perspective: 1000px;
-    /* Enables 3D effect */
 }
 
-/* The inner card that holds the front and back */
+/* inner card that holds the front and back */
 #cards-container .card-inner {
     position: relative;
     width: 100%;
@@ -150,46 +167,66 @@ body {
     text-align: center;
     transition: transform 0.5s;
     transform-style: preserve-3d;
-    /* Allow for 3D space */
 }
 
-/* Flip the card on hover */
+/* card flip */
 #cards-container .card:hover .card-inner {
     transform: rotateY(180deg);
 }
 
-/* Position the front and back sides */
+/* position the front and back sides */
 #cards-container .card-front,
 #cards-container .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    /* Hides the back side when flipped */
 }
 
-/* Style the back side (text content) */
-#cards-container .card-back {
+/* style the back side */
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     transform: rotateY(180deg);
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    overflow: hidden;
 }
 
+/* card image on the back */
+.card-back .closing-times img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5);
+    z-index: 1;
+}
+
+/* div that covers the card image */
+.closing-times {
+    position: relative;
+    width: 348px;
+    height: 348px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* closing times */
+.card-back .closing-times .text-overlay {
+    font-size: 1.2rem;
+    color: #ebe1ed;
+    text-align: right; 
+    z-index: 2;
+}
+
+/* star rating styling */
 i.fa-star, i.fa-star-half-stroke, i.fa-regular.fa-star {
     color: #d07c3d !important;
-}
-
-.btn-outline-success {
-    --bs-btn-color: #d07c3d !important;
-    --bs-btn-border-color: #d07c3d !important;
-    --bs-btn-hover-color: #ebe1ed !important;
-    --bs-btn-hover-bg: #d07c3d !important;
-    --bs-btn-hover-border-color: #d07c3d !important;
-    --bs-btn-focus-shadow-rgb: 25, 135, 84;
-    --bs-btn-active-color: #ffffff;
-    --bs-btn-active-bg: #d07c3d !important;
-    --bs-btn-active-border-color: #d07c3d !important;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #d07c3d !important;
-    --bs-btn-disabled-bg: transparent;
-    --bs-btn-disabled-border-color: #d07c3d !important;
-    --bs-gradient: none;
 }
