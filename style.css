@@ -101,10 +101,17 @@ body {
     background: #871838;
 }
 
+#about-screen .card {
+    transition: all 0.3s ease-in-out;
+}
+
 /* cards will grow on hover */
 #about-screen .card:hover {
-    transition: all 0.3s ease-in-out;
     transform: scale(1.1);
+}
+
+.card {
+    border-radius: 10px;
 }
 
 /* card padding */
