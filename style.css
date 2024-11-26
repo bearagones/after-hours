@@ -1,8 +1,15 @@
 /* all pages */
-body {
+html, body {
     font-family: "Montserrat", sans-serif;
+    background-color: transparent !important;
     color: #ebe1ed !important;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
 }
 
 /* nav bar */
@@ -78,8 +85,11 @@ body {
 /* about screen background gradient */
 #about-screen {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(0.25turn, #34356f, #1f0c33, #27223a);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* about screen header */
@@ -110,10 +120,6 @@ body {
     transform: scale(1.1);
 }
 
-.card {
-    border-radius: 10px;
-}
-
 /* card padding */
 .about,
 .find {
@@ -127,6 +133,7 @@ body {
 
 /* image on the about screen */
 .home-img img {
+    height: 21vw;
     border: 10px solid #ebe1ed;
     border-radius: 10rem;
 }
@@ -205,7 +212,7 @@ body {
     height: 100%;
     transform: rotateY(180deg);
     z-index: 1;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 /* card image on the back */
@@ -236,7 +243,7 @@ body {
 .card-back .closing-times .text-overlay {
     font-size: 1.2rem;
     color: #ebe1ed;
-    text-align: right; 
+    text-align: right;
     z-index: 2;
 }
 
@@ -247,7 +254,9 @@ body {
 }
 
 /* star rating styling */
-i.fa-star, i.fa-star-half-stroke, i.fa-regular.fa-star {
+i.fa-star,
+i.fa-star-half-stroke,
+i.fa-regular.fa-star {
     color: #d07c3d !important;
 }
 
@@ -256,7 +265,7 @@ i.fa-star, i.fa-star-half-stroke, i.fa-regular.fa-star {
     margin: 0 5px;
 }
 
-.badges  {
+.badges {
     margin-bottom: 12px;
 }
 
@@ -282,10 +291,47 @@ i.fa-star, i.fa-star-half-stroke, i.fa-regular.fa-star {
     border-radius: 5px;
     font-size: 20px;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 15;
 }
 
 .scroll-to-top-btn:hover {
     transition: all 0.3s ease-in-out;
     background-color: #1F0C33;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(0.25turn, #34356f, #1f0c33, #27223a);
+    color: #ebe1ed;
+    z-index: 10;
+    text-align: center;
+    padding: 1rem;
+}
+
+footer p {
+    margin: 0 !important;
+}
+
+.filter-container {
+    display: flex;
+    /* Enables flexbox */
+    align-items: center;
+    /* Vertically centers the items */
+    justify-content: center;
+    /* Centers the items horizontally */
+    gap: 10px;
+    /* Adds spacing between the label and dropdown */
+    margin-bottom: 20px;
+    /* Optional, for spacing below the filter */
+}
+
+#sort-options {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 200px;
+    /* Adjust the width of the dropdown */
 }

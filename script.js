@@ -79,17 +79,17 @@ function displayCards(data) {
     console.log("Displaying cards:", data);
 
     let row = document.createElement("div");
-    row.className = "row g-3 justify-content-center"; // Add row and justify-content-center
+    row.className = "row g-3 justify-content-center";
 
     data.forEach((record, index) => {
         const cardWrapper = document.createElement("div");
-        cardWrapper.className = "col-12 col-md-4 d-flex justify-content-center"; // Center each card in the column
+        cardWrapper.className = "col-12 col-md-4 d-flex justify-content-center";
 
-        const stars = displayStars(record.fields.Stars); // Assuming `stars` is the field with the number of stars
+        const stars = displayStars(record.fields.Stars);
         const rating = record.fields.Rating;
 
-        cardWrapper.innerHTML = 
-        `
+        cardWrapper.innerHTML =
+            `
             <div class="card" style="width: 350px; margin: 10px;">
                 <div class="card-inner">
                     <div class="card-front">
@@ -190,16 +190,16 @@ function getClosingTimes(record) {
         formattedTimes.push(timeText);
     });
 
-    return formattedTimes.join('<br>'); 
+    return formattedTimes.join('<br>');
 }
 
 var mybutton = document.getElementById("scrollToTopBtn");
 
 window.onscroll = function () {
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-        mybutton.style.display = "block"; 
+        mybutton.style.display = "block";
     } else {
-        mybutton.style.display = "none"; 
+        mybutton.style.display = "none";
     }
 };
 
