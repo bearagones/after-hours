@@ -28,18 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
     defaultOption.disabled = true;
     sortOptions.prepend(defaultOption); // Add it as the first option
 
-    // Add options for sorting by closing time
-    const earliestClosingOption = document.createElement("option");
-    earliestClosingOption.value = "closing-time-asc";
-    earliestClosingOption.textContent = "Earliest Closing Time";
-
-    const latestClosingOption = document.createElement("option");
-    latestClosingOption.value = "closing-time-desc";
-    latestClosingOption.textContent = "Latest Closing Time";
-
-    sortOptions.appendChild(earliestClosingOption);
-    sortOptions.appendChild(latestClosingOption);
-
     // Add event listener to sort dropdown
     sortOptions.addEventListener("change", function () {
         const selectedSort = sortOptions.value;
@@ -276,15 +264,13 @@ function sortData(selectedSort) {
 var mybutton = document.getElementById("scrollToTopBtn");
 
 window.onscroll = function () {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
         mybutton.style.display = "block";
     } else {
         mybutton.style.display = "none";
     }
 };
 
-function scrollToTop() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-    displayCards(sortedData);
-}
+mybutton.onclick = function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
