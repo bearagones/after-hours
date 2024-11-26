@@ -20,6 +20,26 @@ document.addEventListener("DOMContentLoaded", function () {
     // Get the sort dropdown element
     const sortOptions = document.getElementById("sort-options");
 
+    // Add default option (No sorting) to the dropdown
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Sort by...";
+    defaultOption.selected = true;
+    defaultOption.disabled = true;
+    sortOptions.prepend(defaultOption); // Add it as the first option
+
+    // Add options for sorting by closing time
+    const earliestClosingOption = document.createElement("option");
+    earliestClosingOption.value = "closing-time-asc";
+    earliestClosingOption.textContent = "Earliest Closing Time";
+
+    const latestClosingOption = document.createElement("option");
+    latestClosingOption.value = "closing-time-desc";
+    latestClosingOption.textContent = "Latest Closing Time";
+
+    sortOptions.appendChild(earliestClosingOption);
+    sortOptions.appendChild(latestClosingOption);
+
     // Add event listener to sort dropdown
     sortOptions.addEventListener("change", function () {
         const selectedSort = sortOptions.value;
@@ -207,9 +227,27 @@ function getClosingTimes(record) {
     return formattedTimes.join('<br>');
 }
 
-function sortData(sortOption) {
+// Helper function to convert 12-hour time to 24-hour time for sorting
+function convertTo24Hour(time) {
+    if (time === "Closed") return -1;  // Handle 'Closed' as the latest possible time
+
+    const [timeString, modifier] = time.split(" ");
+    const [hours, minutes] = timeString.split(":").map(Number);
+    let hours24 = hours;
+
+    if (modifier === "PM" && hours !== 12) {
+        hours24 += 12;  // Convert PM to 24-hour format
+    } else if (modifier === "AM" && hours === 12) {
+        hours24 = 0;  // Convert 12 AM to 00
+    }
+
+    return hours24 * 60 + minutes;  // Return the time in minutes for easier comparison
+}
+
+function sortData(selectedSort) {
     let sortedData;
-    switch (sortOption) {
+
+    switch (selectedSort) {
         case 'alphabetical-asc':
             sortedData = displayData.sort((a, b) => a.fields.Name.localeCompare(b.fields.Name));
             break;
@@ -222,10 +260,16 @@ function sortData(sortOption) {
         case 'rating-desc':
             sortedData = displayData.sort((a, b) => b.fields.Rating - a.fields.Rating);
             break;
+        case 'closing-time-asc':
+            sortedData = displayData.sort((a, b) => convertTo24Hour(a.closingTime) - convertTo24Hour(b.closingTime));
+            break;
+        case 'closing-time-desc':
+            sortedData = displayData.sort((a, b) => convertTo24Hour(b.closingTime) - convertTo24Hour(a.closingTime));
+            break;
         default:
             sortedData = displayData;
-            break;
     }
+
     displayCards(sortedData);
 }
 
@@ -242,4 +286,5 @@ window.onscroll = function () {
 function scrollToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+    displayCards(sortedData);
 }
