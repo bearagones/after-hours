@@ -148,6 +148,7 @@ html, body {
 /* background gradient for cards-container */
 #cards-container {
     background: linear-gradient(0.25turn, #34356f, #1f0c33, #27223a);
+    padding-top: 20px;
 }
 
 /* formatting for card images in the container */
@@ -315,16 +316,12 @@ footer p {
 }
 
 .filter-container {
+    background: linear-gradient(#77507D, #34356F, #22123C);
     display: flex;
-    /* Enables flexbox */
     align-items: center;
-    /* Vertically centers the items */
     justify-content: center;
-    /* Centers the items horizontally */
     gap: 10px;
-    /* Adds spacing between the label and dropdown */
-    margin-bottom: 20px;
-    /* Optional, for spacing below the filter */
+    padding: 20px;
 }
 
 #sort-options {
@@ -333,5 +330,4 @@ footer p {
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 200px;
-    /* Adjust the width of the dropdown */
 }
