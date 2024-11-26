@@ -55,6 +55,15 @@
     <div id="background-image">
         <h1>Clubs</h1>
     </div>
+    <div class="filter-container">
+        <label for="sort-options">Sort by:</label>
+        <select id="sort-options" class="form-select" aria-label="Sort options">
+            <option value="alphabetical-asc">Alphabetical (A → Z)</option>
+            <option value="alphabetical-desc">Alphabetical (Z → A)</option>
+            <option value="rating-asc">Rating (Low → High)</option>
+            <option value="rating-desc">Rating (High → Low)</option>
+        </select>
+    </div>
     <div class="container-fluid tables" id="cards-container"></div>
     <button id="scrollToTopBtn" class="scroll-to-top-btn">Scroll to Top</button>
     <footer class="py-3 mt-auto text-center">

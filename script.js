@@ -17,10 +17,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Category determined:", category);
 
+    // Get the sort dropdown element
+    const sortOptions = document.getElementById("sort-options");
+
+    // Add event listener to sort dropdown
+    sortOptions.addEventListener("change", function () {
+        const selectedSort = sortOptions.value;
+        sortData(selectedSort);
+    });
+
     if (category) {
         getRecords(category);
     }
 });
+
+let displayData = [];  // Store the fetched data globally so we can sort it
 
 async function getRecords(category) {
     const options = {
@@ -62,11 +73,12 @@ async function getRecords(category) {
         }));
 
         // Process records and format closing times
-        const displayData = recordsWithClosingTimes.map((record) => {
+        displayData = recordsWithClosingTimes.map((record) => {
             const closingTimes = getClosingTimes(record.closingTime); // Get formatted closing times string
             return { ...record, closingTimes };
         });
 
+        // Initially display the cards
         displayCards(displayData);
         console.log("Filtered data with closing times:", displayData);
     } catch (error) {
@@ -77,6 +89,8 @@ async function getRecords(category) {
 function displayCards(data) {
     const container = document.getElementById("cards-container");
     console.log("Displaying cards:", data);
+
+    container.innerHTML = '';  // Clear the container before displaying new data
 
     let row = document.createElement("div");
     row.className = "row g-3 justify-content-center";
@@ -193,16 +207,39 @@ function getClosingTimes(record) {
     return formattedTimes.join('<br>');
 }
 
+function sortData(sortOption) {
+    let sortedData;
+    switch (sortOption) {
+        case 'alphabetical-asc':
+            sortedData = displayData.sort((a, b) => a.fields.Name.localeCompare(b.fields.Name));
+            break;
+        case 'alphabetical-desc':
+            sortedData = displayData.sort((a, b) => b.fields.Name.localeCompare(a.fields.Name));
+            break;
+        case 'rating-asc':
+            sortedData = displayData.sort((a, b) => a.fields.Rating - b.fields.Rating);
+            break;
+        case 'rating-desc':
+            sortedData = displayData.sort((a, b) => b.fields.Rating - a.fields.Rating);
+            break;
+        default:
+            sortedData = displayData;
+            break;
+    }
+    displayCards(sortedData);
+}
+
 var mybutton = document.getElementById("scrollToTopBtn");
 
 window.onscroll = function () {
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         mybutton.style.display = "block";
     } else {
         mybutton.style.display = "none";
     }
 };
 
-mybutton.onclick = function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-};
+function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
