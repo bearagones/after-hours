@@ -85,7 +85,6 @@ async function getRecords(category) {
         });
 
         displayCards(displayData);
-        console.log("Filtered data with closing times:", displayData);
     } catch (error) {
         console.error("Error fetching data", error);
     }
@@ -227,7 +226,7 @@ function getClosingTimes(record) {
     return formattedTimes.join("<br>");
 }
 
-// convert the time strings to minutes
+// Convert the time strings to minutes
 function convertTo24Hour(time) {
     console.log("Converting time:", time);
 
@@ -245,46 +244,48 @@ function convertTo24Hour(time) {
 
     const totalMinutes = hours24 * 60 + minutes;
 
+    // Adjust for times between 12:00 AM and 6:00 AM to represent the next day
+    const adjustedMinutes = hours24 < 6 ? totalMinutes + 24 * 60 : totalMinutes;
+
     console.log("Converted to 24-hour time:", totalMinutes);
-    return totalMinutes;
+    console.log("Adjusted time (next day for early morning):", adjustedMinutes);
+    return adjustedMinutes;
 }
+
 
 // sort the cards based on user selection 
 function sortData(selectedSort) {
     let sortedData;
 
+    // get the current day of the week in SF's time zone 
+    const currentDay = new Intl.DateTimeFormat("en-US", {
+        weekday: "long",
+        timeZone: "America/Los_Angeles",
+    }).format(new Date());
+
+    const extractCurrentDayTime = (record) => {
+        const time = record.closingTime ? record.closingTime[currentDay] : null;
+        return time ? convertTo24Hour(time) : -1; // Return -1 if no valid time
+    };
+
     switch (selectedSort) {
         case "alphabetical-asc":
-            sortedData = displayData.sort((a, b) =>
-                a.fields.Name.localeCompare(b.fields.Name)
-            );
+            sortedData = displayData.sort((a, b) => a.fields.Name.localeCompare(b.fields.Name));
             break;
         case "alphabetical-desc":
-            sortedData = displayData.sort((a, b) =>
-                b.fields.Name.localeCompare(a.fields.Name)
-            );
+            sortedData = displayData.sort((a, b) => b.fields.Name.localeCompare(a.fields.Name));
             break;
         case "rating-asc":
-            sortedData = displayData.sort(
-                (a, b) => a.fields.Rating - b.fields.Rating
-            );
+            sortedData = displayData.sort((a, b) => a.fields.Rating - b.fields.Rating);
             break;
         case "rating-desc":
-            sortedData = displayData.sort(
-                (a, b) => b.fields.Rating - a.fields.Rating
-            );
+            sortedData = displayData.sort((a, b) => b.fields.Rating - a.fields.Rating);
             break;
-        case "closing-time-asc":
-            sortedData = displayData.sort(
-                (a, b) =>
-                    convertTo24Hour(a.closingTime) - convertTo24Hour(b.closingTime)
-            );
+        case "closing-asc":
+            sortedData = displayData.sort((a, b) => extractCurrentDayTime(a) - extractCurrentDayTime(b));
             break;
-        case "closing-time-desc":
-            sortedData = displayData.sort(
-                (a, b) =>
-                    convertTo24Hour(b.closingTime) - convertTo24Hour(a.closingTime)
-            );
+        case "closing-desc":
+            sortedData = displayData.sort((a, b) => extractCurrentDayTime(b) - extractCurrentDayTime(a));
             break;
         default:
             sortedData = displayData;
