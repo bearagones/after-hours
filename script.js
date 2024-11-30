@@ -228,10 +228,8 @@ function getClosingTimes(record) {
 
 // Convert the time strings to minutes
 function convertTo24Hour(time) {
-    console.log("Converting time:", time);
 
-    if (time === "Closed") return -1;
-
+    console.log("Time to convert: ", time);
     const [timeString, modifier] = time.split(" ");
     const [hours, minutes] = timeString.split(":").map(Number);
     let hours24 = hours;
@@ -244,14 +242,12 @@ function convertTo24Hour(time) {
 
     const totalMinutes = hours24 * 60 + minutes;
 
-    // Adjust for times between 12:00 AM and 6:00 AM to represent the next day
-    const adjustedMinutes = hours24 < 6 ? totalMinutes + 24 * 60 : totalMinutes;
+    const adjustedMinutes = hours24 < 10 ? totalMinutes + 24 * 60 : totalMinutes;
 
     console.log("Converted to 24-hour time:", totalMinutes);
     console.log("Adjusted time (next day for early morning):", adjustedMinutes);
     return adjustedMinutes;
 }
-
 
 // sort the cards based on user selection 
 function sortData(selectedSort) {
@@ -265,6 +261,7 @@ function sortData(selectedSort) {
 
     const extractCurrentDayTime = (record) => {
         const time = record.closingTime ? record.closingTime[currentDay] : null;
+        if (time === "Closed") return Infinity;
         return time ? convertTo24Hour(time) : -1; // Return -1 if no valid time
     };
 
@@ -282,10 +279,24 @@ function sortData(selectedSort) {
             sortedData = displayData.sort((a, b) => b.fields.Rating - a.fields.Rating);
             break;
         case "closing-asc":
-            sortedData = displayData.sort((a, b) => extractCurrentDayTime(a) - extractCurrentDayTime(b));
+            sortedData = displayData.sort((a, b) => {
+                const timeA = extractCurrentDayTime(a);
+                const timeB = extractCurrentDayTime(b);
+                
+                if (timeA === Infinity) return 1;  
+                if (timeB === Infinity) return -1;
+                return timeA - timeB;
+            });
             break;
         case "closing-desc":
-            sortedData = displayData.sort((a, b) => extractCurrentDayTime(b) - extractCurrentDayTime(a));
+            sortedData = displayData.sort((a, b) => {
+                const timeA = extractCurrentDayTime(a);
+                const timeB = extractCurrentDayTime(b);
+                
+                if (timeA === Infinity) return 1;  
+                if (timeB === Infinity) return -1; 
+                return timeB - timeA;
+            });
             break;
         default:
             sortedData = displayData;
