@@ -1,9 +1,11 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function () {
+    // determine which page we are on
     const path = window.location.pathname;
     console.log("Current path:", path);
 
+    // filter cards based on assigned category
     let category;
     if (path.includes("restaurants")) {
         category = "Restaurant";
@@ -17,30 +19,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Category determined:", category);
 
-    // Get the sort dropdown element
+    if (category) {
+        getRecords(category);
+    }
+
+    // sort cards based on chosen option
     const sortOptions = document.getElementById("sort-options");
 
-    // Add default option (No sorting) to the dropdown
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.textContent = "Sort by...";
-    defaultOption.selected = true;
-    defaultOption.disabled = true;
-    sortOptions.prepend(defaultOption); // Add it as the first option
-
-    // Add event listener to sort dropdown
     sortOptions.addEventListener("change", function () {
         const selectedSort = sortOptions.value;
         sortData(selectedSort);
     });
-
-    if (category) {
-        getRecords(category);
-    }
 });
 
-let displayData = [];  // Store the fetched data globally so we can sort it
+let displayData = [];
 
+// function to grab the cards from AirTable
 async function getRecords(category) {
     const options = {
         method: "GET",
@@ -52,41 +46,44 @@ async function getRecords(category) {
     console.log("Fetching data for category:", category);
 
     try {
-        const response = await fetch(`https://api.airtable.com/v0/appvNBPsv8txKEdOb/Late%20Night%20Establishments`, options);
+        const response = await fetch(
+            `https://api.airtable.com/v0/appvNBPsv8txKEdOb/Late%20Night%20Establishments`,
+            options
+        );
         const data = await response.json();
 
-        const filteredData = data.records.filter(record => {
-            return record.fields.Type.some(type => type === category);
+        const filteredData = data.records.filter((record) => {
+            return record.fields.Type.some((type) => type === category);
         });
 
-        // Fetch Closing Time data for each record
-        const recordsWithClosingTimes = await Promise.all(filteredData.map(async (record) => {
-            const closingTimeLink = record.fields['Closing Time'];
+        const recordsWithClosingTimes = await Promise.all(
+            filteredData.map(async (record) => {
+                const closingTimeLink = record.fields["Closing Time"];
 
-            if (closingTimeLink && closingTimeLink.length > 0) {
-                const closingTimeId = closingTimeLink[0];
-                const closingTimeResponse = await fetch(`https://api.airtable.com/v0/appvNBPsv8txKEdOb/Closing%20Times/${closingTimeId}`, options);
-                const closingTimeData = await closingTimeResponse.json();
+                if (closingTimeLink && closingTimeLink.length > 0) {
+                    const closingTimeId = closingTimeLink[0];
+                    const closingTimeResponse = await fetch(
+                        `https://api.airtable.com/v0/appvNBPsv8txKEdOb/Closing%20Times/${closingTimeId}`,
+                        options
+                    );
+                    const closingTimeData = await closingTimeResponse.json();
 
-                console.log('Closing Time Data:', closingTimeData);
+                    return {
+                        ...record,
+                        closingTime: closingTimeData.fields,
+                    };
+                } else {
+                    console.log("No closing time linked for this record.");
+                    return { ...record, closingTime: null };
+                }
+            })
+        );
 
-                return {
-                    ...record,
-                    closingTime: closingTimeData.fields,
-                };
-            } else {
-                console.log("No closing time linked for this record.");
-                return { ...record, closingTime: null }; // Handle case where there's no linked Closing Time
-            }
-        }));
-
-        // Process records and format closing times
         displayData = recordsWithClosingTimes.map((record) => {
-            const closingTimes = getClosingTimes(record.closingTime); // Get formatted closing times string
+            const closingTimes = getClosingTimes(record.closingTime);
             return { ...record, closingTimes };
         });
 
-        // Initially display the cards
         displayCards(displayData);
         console.log("Filtered data with closing times:", displayData);
     } catch (error) {
@@ -98,7 +95,7 @@ function displayCards(data) {
     const container = document.getElementById("cards-container");
     console.log("Displaying cards:", data);
 
-    container.innerHTML = '';  // Clear the container before displaying new data
+    container.innerHTML = "";
 
     let row = document.createElement("div");
     row.className = "row g-3 justify-content-center";
@@ -107,11 +104,13 @@ function displayCards(data) {
         const cardWrapper = document.createElement("div");
         cardWrapper.className = "col-12 col-md-4 d-flex justify-content-center";
 
+        // display the star icons
         const stars = displayStars(record.fields.Stars);
+        // display the rating 
         const rating = record.fields.Rating;
 
-        cardWrapper.innerHTML =
-            `
+        // HTML for the cards themselves
+        cardWrapper.innerHTML = `
             <div class="card" style="width: 350px; margin: 10px;">
                 <div class="card-inner">
                     <div class="card-front">
@@ -138,7 +137,7 @@ function displayCards(data) {
                             </div>
                             <p>${record.fields.Address}</p>
                             <div class="button-group d-flex justify-content-center">
-                                <a href="${record.fields['Yelp Page']}" class="btn btn-primary" target="_blank">Yelp Page</a>
+                                <a href="${record.fields["Yelp Page"]}" class="btn btn-primary" target="_blank">Yelp Page</a>
                                 <a href="${record.fields.Directions}" class="btn btn-primary" target="_blank">Directions</a>
                             </div>
                         </div>
@@ -147,6 +146,7 @@ function displayCards(data) {
             </div>
         `;
 
+        // three cards per row
         if (index % 3 === 0) {
             row = document.createElement("div");
             row.className = "row g-3 justify-content-center";
@@ -160,12 +160,13 @@ function displayCards(data) {
     });
 }
 
+// function that displays the correct number of stars 
 function displayStars(stars) {
     const fullStars = Math.floor(stars);
     const halfStar = stars % 1 >= 0.5 ? 1 : 0;
     const emptyStars = 5 - fullStars - halfStar;
 
-    let starIcons = '';
+    let starIcons = "";
 
     for (let i = 0; i < fullStars; i++) {
         starIcons += `<i class="fa-solid fa-star" style="color: #FFD43B;"></i>`;
@@ -182,29 +183,40 @@ function displayStars(stars) {
     return starIcons;
 }
 
+// display proper closing times
 function getClosingTimes(record) {
     if (!record) return "No closing times available";
 
-    const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const daysOfWeek = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+    ];
 
-    const currentDay = new Intl.DateTimeFormat('en-US', {
-        weekday: 'long',
-        timeZone: 'America/Los_Angeles'
+    // get the current day of the week in SF's time zone 
+    const currentDay = new Intl.DateTimeFormat("en-US", {
+        weekday: "long",
+        timeZone: "America/Los_Angeles",
     }).format(new Date());
 
     let formattedTimes = [];
 
-    daysOfWeek.forEach(day => {
+    daysOfWeek.forEach((day) => {
         const time = record[day];
-        console.log(`Closing time for ${day}:`, time);
 
-        let timeText = '';
+        // display closing time for each weekday
+        let timeText = "";
         if (time) {
             timeText = `${day}: ${time}`;
         } else {
             timeText = `${day}: Not Available`;
         }
 
+        // highlight the current weekday for the user
         if (day === currentDay) {
             timeText = `<span class="highlighted">${timeText}</span>`;
         }
@@ -212,47 +224,67 @@ function getClosingTimes(record) {
         formattedTimes.push(timeText);
     });
 
-    return formattedTimes.join('<br>');
+    return formattedTimes.join("<br>");
 }
 
-// Helper function to convert 12-hour time to 24-hour time for sorting
+// convert the time strings to minutes
 function convertTo24Hour(time) {
-    if (time === "Closed") return -1;  // Handle 'Closed' as the latest possible time
+    console.log("Converting time:", time);
+
+    if (time === "Closed") return -1;
 
     const [timeString, modifier] = time.split(" ");
     const [hours, minutes] = timeString.split(":").map(Number);
     let hours24 = hours;
 
     if (modifier === "PM" && hours !== 12) {
-        hours24 += 12;  // Convert PM to 24-hour format
+        hours24 += 12;
     } else if (modifier === "AM" && hours === 12) {
-        hours24 = 0;  // Convert 12 AM to 00
+        hours24 = 0;
     }
 
-    return hours24 * 60 + minutes;  // Return the time in minutes for easier comparison
+    const totalMinutes = hours24 * 60 + minutes;
+
+    console.log("Converted to 24-hour time:", totalMinutes);
+    return totalMinutes;
 }
 
+// sort the cards based on user selection 
 function sortData(selectedSort) {
     let sortedData;
 
     switch (selectedSort) {
-        case 'alphabetical-asc':
-            sortedData = displayData.sort((a, b) => a.fields.Name.localeCompare(b.fields.Name));
+        case "alphabetical-asc":
+            sortedData = displayData.sort((a, b) =>
+                a.fields.Name.localeCompare(b.fields.Name)
+            );
             break;
-        case 'alphabetical-desc':
-            sortedData = displayData.sort((a, b) => b.fields.Name.localeCompare(a.fields.Name));
+        case "alphabetical-desc":
+            sortedData = displayData.sort((a, b) =>
+                b.fields.Name.localeCompare(a.fields.Name)
+            );
             break;
-        case 'rating-asc':
-            sortedData = displayData.sort((a, b) => a.fields.Rating - b.fields.Rating);
+        case "rating-asc":
+            sortedData = displayData.sort(
+                (a, b) => a.fields.Rating - b.fields.Rating
+            );
             break;
-        case 'rating-desc':
-            sortedData = displayData.sort((a, b) => b.fields.Rating - a.fields.Rating);
+        case "rating-desc":
+            sortedData = displayData.sort(
+                (a, b) => b.fields.Rating - a.fields.Rating
+            );
             break;
-        case 'closing-time-asc':
-            sortedData = displayData.sort((a, b) => convertTo24Hour(a.closingTime) - convertTo24Hour(b.closingTime));
+        case "closing-time-asc":
+            sortedData = displayData.sort(
+                (a, b) =>
+                    convertTo24Hour(a.closingTime) - convertTo24Hour(b.closingTime)
+            );
             break;
-        case 'closing-time-desc':
-            sortedData = displayData.sort((a, b) => convertTo24Hour(b.closingTime) - convertTo24Hour(a.closingTime));
+        case "closing-time-desc":
+            sortedData = displayData.sort(
+                (a, b) =>
+                    convertTo24Hour(b.closingTime) - convertTo24Hour(a.closingTime)
+            );
             break;
         default:
             sortedData = displayData;
@@ -261,10 +293,14 @@ function sortData(selectedSort) {
     displayCards(sortedData);
 }
 
+// button to scroll back to the top
 var mybutton = document.getElementById("scrollToTopBtn");
 
 window.onscroll = function () {
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    if (
+        document.body.scrollTop > 100 ||
+        document.documentElement.scrollTop > 100
+    ) {
         mybutton.style.display = "block";
     } else {
         mybutton.style.display = "none";
@@ -272,5 +308,5 @@ window.onscroll = function () {
 };
 
 mybutton.onclick = function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 };

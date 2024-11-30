@@ -1,5 +1,6 @@
 /* all pages */
-html, body {
+html,
+body {
     font-family: "Montserrat", sans-serif;
     background-color: transparent !important;
     color: #ebe1ed !important;
