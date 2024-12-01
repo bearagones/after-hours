@@ -97,15 +97,15 @@ function displayCards(data) {
     container.innerHTML = "";
 
     let row = document.createElement("div");
-    row.className = "row g-3 justify-content-center";
+    row.className = "row g-3";
 
     data.forEach((record, index) => {
         const cardWrapper = document.createElement("div");
-        cardWrapper.className = "col-12 col-md-4 d-flex justify-content-center";
+        cardWrapper.className = "col-12 col-md-4 d-flex";
 
         // display the star icons
         const stars = displayStars(record.fields.Stars);
-        // display the rating 
+        // display the rating
         const rating = record.fields.Rating;
 
         // HTML for the cards themselves
@@ -148,7 +148,15 @@ function displayCards(data) {
         // three cards per row
         if (index % 3 === 0) {
             row = document.createElement("div");
-            row.className = "row g-3 justify-content-center";
+            row.className = "row g-3";
+        }
+
+        if (index % 3 === 0) {
+            cardWrapper.classList.add("justify-content-end");
+        } else if (index % 3 === 2) {
+            cardWrapper.classList.add("justify-content-start");
+        } else {
+            cardWrapper.classList.add("justify-content-center");
         }
 
         row.appendChild(cardWrapper);
@@ -159,7 +167,7 @@ function displayCards(data) {
     });
 }
 
-// function that displays the correct number of stars 
+// function that displays the correct number of stars
 function displayStars(stars) {
     const fullStars = Math.floor(stars);
     const halfStar = stars % 1 >= 0.5 ? 1 : 0;
@@ -196,7 +204,7 @@ function getClosingTimes(record) {
         "Sunday",
     ];
 
-    // get the current day of the week in SF's time zone 
+    // get the current day of the week in SF's time zone
     const currentDay = new Intl.DateTimeFormat("en-US", {
         weekday: "long",
         timeZone: "America/Los_Angeles",
@@ -228,7 +236,6 @@ function getClosingTimes(record) {
 
 // Convert the time strings to minutes
 function convertTo24Hour(time) {
-
     console.log("Time to convert: ", time);
     const [timeString, modifier] = time.split(" ");
     const [hours, minutes] = timeString.split(":").map(Number);
@@ -249,11 +256,11 @@ function convertTo24Hour(time) {
     return adjustedMinutes;
 }
 
-// sort the cards based on user selection 
+// sort the cards based on user selection
 function sortData(selectedSort) {
     let sortedData;
 
-    // get the current day of the week in SF's time zone 
+    // get the current day of the week in SF's time zone
     const currentDay = new Intl.DateTimeFormat("en-US", {
         weekday: "long",
         timeZone: "America/Los_Angeles",
@@ -267,23 +274,31 @@ function sortData(selectedSort) {
 
     switch (selectedSort) {
         case "alphabetical-asc":
-            sortedData = displayData.sort((a, b) => a.fields.Name.localeCompare(b.fields.Name));
+            sortedData = displayData.sort((a, b) =>
+                a.fields.Name.localeCompare(b.fields.Name)
+            );
             break;
         case "alphabetical-desc":
-            sortedData = displayData.sort((a, b) => b.fields.Name.localeCompare(a.fields.Name));
+            sortedData = displayData.sort((a, b) =>
+                b.fields.Name.localeCompare(a.fields.Name)
+            );
             break;
         case "rating-asc":
-            sortedData = displayData.sort((a, b) => a.fields.Rating - b.fields.Rating);
+            sortedData = displayData.sort(
+                (a, b) => a.fields.Rating - b.fields.Rating
+            );
             break;
         case "rating-desc":
-            sortedData = displayData.sort((a, b) => b.fields.Rating - a.fields.Rating);
+            sortedData = displayData.sort(
+                (a, b) => b.fields.Rating - a.fields.Rating
+            );
             break;
         case "closing-asc":
             sortedData = displayData.sort((a, b) => {
                 const timeA = extractCurrentDayTime(a);
                 const timeB = extractCurrentDayTime(b);
-                
-                if (timeA === Infinity) return 1;  
+
+                if (timeA === Infinity) return 1;
                 if (timeB === Infinity) return -1;
                 return timeA - timeB;
             });
@@ -292,9 +307,9 @@ function sortData(selectedSort) {
             sortedData = displayData.sort((a, b) => {
                 const timeA = extractCurrentDayTime(a);
                 const timeB = extractCurrentDayTime(b);
-                
-                if (timeA === Infinity) return 1;  
-                if (timeB === Infinity) return -1; 
+
+                if (timeA === Infinity) return 1;
+                if (timeB === Infinity) return -1;
                 return timeB - timeA;
             });
             break;
