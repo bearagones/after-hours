@@ -36,7 +36,7 @@ body {
 
 /* feature screen on main page */
 #feature-screen {
-    background-image: url("https://cdn.glitch.global/59952564-19e0-4333-bf64-e603db058523/ggb_night.png?v=1729533677251");
+    background-image: url("assets/ggb_night.png");
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
@@ -60,7 +60,7 @@ body {
 
 /* feature images on indiv pages */
 #background-image {
-    background-image: url("https://cdn.glitch.global/59952564-19e0-4333-bf64-e603db058523/starry_sky.jpg?v=1731489220285");
+    background-image: url("/assets/starry_sky.jpg");
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;
